@@ -1,118 +1,187 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+// In your index.tsx file
+// import React from 'react';
+// import vehicleData from '../Public/vehicle_data (1).json'
+// import VehicleTable from '@/Components/VehicleTable'; // Import the VehicleTable component
+// import { Vehicle } from '@/Components/types';
+// import { mapJsonToVehicle } from '@/Public/utils';
 
-const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+// const HomePage: React.FC = () => {
+//   // Map JSON data to the Vehicle interface
+//   const vehicles: Vehicle[] = vehicleData.map((data: any) => mapJsonToVehicle(data));
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+//   return (
+//     <div>
+//       <h1>Welcome to the Vehicle Data App</h1>
+//       <VehicleTable vehicles={vehicles} />
+//     </div>
+//   );
+// };
+
+// export default HomePage;
+
+
+// src/pages/index.tsx
+
+// import React from 'react';
+// import { Table } from 'antd';
+// import { Vehicle } from '../Components/types';
+// import vehicleData from '../Public/vehicle_data (1).json';
+
+// const columns = [
+//   {
+//     title: 'Name',
+//     dataIndex: 'Name',
+//     key: 'Name',
+//   },
+//   {
+//     title: 'Model',
+//     dataIndex: 'Model',
+//     key: 'Model',
+//   },
+//   {
+//     title: 'Type',
+//     dataIndex: 'Type',
+//     key: 'Type',
+//   },
+//   {
+//     title: 'Manufacturer',
+//     dataIndex: 'Manufacturer',
+//     key: 'Manufacturer',
+//   },
+//   {
+//     title: 'Manufacturing Date',
+//     dataIndex: 'ManufacturingDate',
+//     key: 'ManufacturingDate',
+//   },
+//   {
+//     title: 'Seating',
+//     dataIndex: 'Seating',
+//     key: 'Seating',
+//   },
+// ];
+
+// const HomePage: React.FC = () => {
+//   return (
+//     <div style={{ padding: '20px' }}>
+//       <h1>Welcome to the Vehicle Data App</h1>
+//       <Table dataSource={vehicleData} columns={columns} />
+//     </div>
+//   );
+// };
+
+// export default HomePage;
+
+
+
+
+// src/pages/index.tsx
+
+import React, { useState } from 'react';
+import { Table, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { Vehicle } from '../Components/types';
+import vehicleData from '../Public/vehicle_data (1).json';
+
+const { Search } = Input;
+
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'Name',
+    key: 'Name',
+  },
+  {
+    title: 'Model',
+    dataIndex: 'Model',
+    key: 'Model',
+  },
+  {
+    title: 'Type',
+    dataIndex: 'Type',
+    key: 'Type',
+  },
+  {
+    title: 'Manufacturer',
+    dataIndex: 'Manufacturer',
+    key: 'Manufacturer',
+  },
+  {
+    title: 'Manufacturing Date',
+    dataIndex: 'ManufacturingDate',
+    key: 'ManufacturingDate',
+  },
+  {
+    title: 'Seating',
+    dataIndex: 'Seating',
+    key: 'Seating',
+  },
+];
+
+const HomePage: React.FC = () => {
+  const [searchText, setSearchText] = useState<string>('');
+  const [searchedColumn, setSearchedColumn] = useState<string>('');
+
+  const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters: any) => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const getColumnSearchProps = (dataIndex: any) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
+        <button
+          type="button"
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </button>
+        <button onClick={() => handleReset(clearFilters)} style={{ width: 90 }}>
+          Reset
+        </button>
       </div>
+    ),
+    filterIcon: (filtered: any) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value: any, record: any) =>
+      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+    onFilterDropdownVisibleChange: (visible: any) => {
+      if (visible) {
+        setTimeout(() => document.getElementById('search-input')?.select(), 100);
+      }
+    },
+  });
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+  const filteredColumns = columns.map((col) => ({
+    ...col,
+    ...getColumnSearchProps(col.dataIndex),
+  }));
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>Welcome to the Vehicle Data App</h1>
+      <Search
+        id="search-input"
+        placeholder="Search..."
+        onSearch={(value) => console.log(value)} // Replace with your search logic
+        style={{ width: 200, marginBottom: '20px' }}
+      />
+      <Table dataSource={vehicleData} columns={filteredColumns} />
+    </div>
   );
-}
+};
+
+export default HomePage;
