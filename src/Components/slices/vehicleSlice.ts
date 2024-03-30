@@ -25,5 +25,11 @@ export const selectVehicle = (state: RootState) => state; // Use RootState type
 
 export default vehicleSlice.reducer;
 // vehicleSlice.ts
+
+const actions = {
+  action1: () => {},
+  action2: () => {}
+};
+
 export const { action1, action2 } = actions;
 

@@ -160,7 +160,12 @@ const HomePage: React.FC = () => {
       record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
     onFilterDropdownVisibleChange: (visible: any) => {
       if (visible) {
-        setTimeout(() => document.getElementById('search-input')?.select(), 100);
+        setTimeout(() => {
+          const searchInput = document.getElementById('search-input') as HTMLInputElement;
+          if (searchInput) {
+            searchInput.select();
+          }
+        }, 100);
       }
     },
   });
