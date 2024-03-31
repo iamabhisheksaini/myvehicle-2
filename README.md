@@ -1,5 +1,5 @@
 
-vechile link -- https://iamabhisheksaini.github.io/myvehicle-2/
+vehicle link -- https://iamabhisheksaini.github.io/myvehicle-2/
 
 
 
