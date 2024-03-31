@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+
+
+import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 interface SearchFormProps {
   onSubmit: (query: string) => void;
+  style?: React.CSSProperties;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ onSubmit }) => {
+const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, style }) => {
   const [form] = Form.useForm();
 
   const handleSubmit = (values: any) => {
@@ -15,7 +18,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Form form={form} onFinish={handleSubmit} style={{ marginBottom: '20px', display: 'flex' }}>
+    <Form form={form} onFinish={handleSubmit} style={{ ...style, marginBottom: '20px', display: 'flex' }}>
       <Form.Item name="query" style={{ marginRight: '5px', flex: 1 }}>
         <Input
           placeholder="Search..."
